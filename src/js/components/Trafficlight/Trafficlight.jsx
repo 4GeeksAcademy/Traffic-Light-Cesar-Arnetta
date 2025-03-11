@@ -13,40 +13,71 @@
 import { useState } from 'react'
 import styles from './Trafficlight.module.css'
 
+
+// Array para agregar a posteriori el purple.
+// Opto por un array que añade el purple, 
+// para que sea más fácil a posteriori que el botón
+// siga el orden da cambio de luces
+
+let colors = ["red", "yellow", "green"]
+
 const Trafficlight = () => {
 
-    const [lightRed, setLightRed] = useState(false)
-    const [lightYellow, setLightYellow] = useState(false)
-    const [lightGreen, setLightGreen] = useState(false)
+    const [activeLight, setActiveLight] = useState("")
+    const [addPurple, setAddPurple] = useState(false)
 
-    const handleLightRed = () => {
-        if (lightRed == false) {
-            setLightRed(!lightRed)
-            setLightYellow(false)
-            setLightGreen(false)
-        }
+    // Función para agregar el estilo de luz a los botones
+
+    const handleLight = (light) => {
+        setActiveLight(light)
     }
-    const handleLightYellow = () => {
-        if (lightYellow == false) {
-            setLightRed(false)
-            setLightYellow(!lightYellow)
-            setLightGreen(false)
-        }
+
+    // Función para cambiar de luces
+
+    const swicthLight = () => {
+        const currentIndex = colors.indexOf(activeLight)
+        const nextIndex = (currentIndex + 1) % colors.length
+        setActiveLight(colors[nextIndex])
     }
-    const handleLightGreen = () => {
-        if (lightGreen == false) {
-            setLightRed(false)
-            setLightYellow(false)
-            setLightGreen(!lightGreen)
+
+    // Función para agregar el purple
+
+    const addPurppleBtn = () => {
+        if (addPurple == false) {
+            setAddPurple(true);
+            colors.push("purple");
+        }
+        else {
+            setAddPurple(false);
+            colors.pop();
         }
     }
 
     return (
-        <div>
-            <div className={`${styles.circle} ${lightRed == true ? styles.lightred : ''}`} onClick={handleLightRed} style={{ backgroundColor: "red" }}></div>
-            <div className={`${styles.circle} ${lightYellow == true ? styles.lightyellow : ''}`} onClick={handleLightYellow} style={{ backgroundColor: "yellow" }}></div>
-            <div className={`${styles.circle} ${lightGreen == true ? styles.lightgreen : ''}`} onClick={handleLightGreen} style={{ backgroundColor: "green" }}></div>
-        </div>
+        <div className='container-fluid text-center'>
+            <div className='col' style={{ backgroundColor: "black", width: "2rem", height: "6rem", margin: "auto" }}></div>
+            <div className='col p-2' style={{ backgroundColor: "black", margin: "0 35%", borderRadius: "30%" }}>
+                <div className='row justify-content-center p-2'>
+                    <div className={`${styles.circle} ${activeLight === "red" ? styles.light : ''}`} onClick={() => handleLight("red")} style={{ backgroundColor: "red" }}></div>
+                </div>
+                <div className='row justify-content-center p-2'>
+                    <div className={`${styles.circle} ${activeLight === "yellow" ? styles.light : ''}`} onClick={() => handleLight("yellow")} style={{ backgroundColor: "yellow" }}></div>
+                </div>
+                <div className='row justify-content-center p-2'>
+                    <div className={`${styles.circle} ${activeLight === "green" ? styles.light : ''}`} onClick={() => handleLight("green")} style={{ backgroundColor: "green" }}></div>
+                </div>
+                <div className='row justify-content-center p-2'>
+                    <div className={`${addPurple === true ? styles.circle : ''} ${activeLight === "purple" ? styles.light : ''}`} onClick={() => handleLight("purple")} style={{ backgroundColor: "purple" }}></div>
+                </div>
+            </div>
+
+            <div className='row-4 p-2'>
+                <button onClick={swicthLight}>Cambiar de luz</button>
+            </div>
+            <div className='row-4 p-2'>
+                <button onClick={addPurppleBtn}>{addPurple === true ? "Quitar botón morado" : "Añadir botón morado"}</button>
+            </div>
+        </div >
     )
 }
 
