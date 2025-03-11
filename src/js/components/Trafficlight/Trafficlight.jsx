@@ -56,7 +56,7 @@ const Trafficlight = () => {
     return (
         <div className='container-fluid text-center'>
             <div className='col' style={{ backgroundColor: "black", width: "2rem", height: "6rem", margin: "auto" }}></div>
-            <div className='col p-2' style={{ backgroundColor: "black", margin: "0 35%", borderRadius: "30%" }}>
+            <div className='col p-2' style={{ backgroundColor: "black", width: "15rem", margin: "auto", borderRadius: "30%" }}>
                 <div className='row justify-content-center p-2'>
                     <div className={`${styles.circle} ${activeLight === "red" ? styles.light : ''}`} onClick={() => handleLight("red")} style={{ backgroundColor: "red" }}></div>
                 </div>
